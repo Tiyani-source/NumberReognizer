@@ -1,1 +1,4 @@
-
+The app.py (minsit dataset powered model) is deplyed to recongized uplaoded files numbers in app through the below link:
+https://handwritten-image-classifier-gnvfmpuqqsabwve3e8fysf.streamlit.app/
+This app is a mood predicter and mental health advisor based on users handwrittend enregy level scores:
+https://handwritten-image-classifier-5ylaqfpgvmrrnrsc4viz77.streamlit.app/
