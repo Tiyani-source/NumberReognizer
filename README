@@ -1,4 +1,4 @@
-#Handwritten Image Classifier & CalmDigit (Mood Visualizer)
+# Handwritten Image Classifier & CalmDigit (Mood Visualizer)
 
 Two Streamlit apps powered by a small CNN trained on MNIST:
 	1.	Digit Classifier (app.py) – predicts the digit in an uploaded image or canvas drawing.
