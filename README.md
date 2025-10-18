@@ -1,0 +1,144 @@
+# Handwritten Image Classifier & **CalmDigit** (Mood Visualizer)
+
+Two Streamlit apps powered by a compact CNN trained on **MNIST**:
+
+1. **Digit Classifier** — `app.py`  
+   Predicts the digit in an uploaded image or an on-canvas drawing.
+
+2. **CalmDigit** — `mood.py`  
+   You draw a number (0–9) as your energy level; the app shows a mood card, a short *calm & reflect* flow, and can learn from your corrections.
+
+> **Note:** Educational demo — not a medical tool.
+
+---
+
+## 🌐 Live Demos
+
+- **Digit Classifier:** https://handwritten-image-classifier-gnvfmpuqqsabwve3e8fysf.streamlit.app/
+- **CalmDigit:** https://handwritten-image-classifier-5ylaqfpgvmrrnrsc4viz77.streamlit.app/
+
+---
+
+## 📚 Table of Contents
+
+- [Repository Structure](#-repository-structure)  
+- [Features](#-features)  
+- [Run Locally](#-run-locally)  
+- [Model at a Glance](#-model-at-a-glance)  
+- [Troubleshooting](#-troubleshooting)  
+- [License & Credits](#-license--credits)
+
+---
+
+## 📁 Repository Structure
+
+```text
+.
+├─ app.py                  # Simple digit classifier app
+├─ mood.py                 # CalmDigit app with reflection + feedback memory
+├─ mnist_cnn.pt            # Trained PyTorch weights (CNN for MNIST)
+├─ requirements.txt        # Dependencies
+├─ single_numbers.ipynb    # Notebook (experiments / training)
+└─ README.md
+
+```
+⸻
+
+## ✨ Features
+
+Shared
+	•	PyTorch CNN (2×Conv → FC) trained on MNIST
+	•	Preprocessing: crop → square-pad → resize to 28×28 → invert if needed → center/deskew
+	•	Works on CPU, CUDA (NVIDIA), or Apple Silicon MPS
+
+CalmDigit extras (mood.py)
+	•	Maps digit → mood band: Low (0–3) • Balanced (4–6) • High (7–9)
+	•	1-minute “Calm & Reflect” (box-breathing) + small next-step suggestions
+	•	Lightweight on-device learning: when you correct a prediction, a tiny vector is stored in feedback_mem.npz; future similar drawings auto-adjust via cosine similarity
+
+⸻
+
+# 🚀 Run Locally
+
+0) Prerequisites
+	•	Python 3.10+
+	•	macOS / Linux / Windows
+	•	Optional GPU: CUDA (NVIDIA) or MPS (Apple Silicon, macOS 12.3+)
+
+1) Clone
+
+git clone https://github.com/<your-username>/handwritten-image-classifier.git
+cd handwritten-image-classifier
+
+2) Create & activate a virtual environment (recommended)
+
+python3 -m venv .venv
+# macOS/Linux
+source .venv/bin/activate
+# Windows (PowerShell)
+# .venv\Scripts\Activate.ps1
+
+3) Install dependencies
+
+pip install --upgrade pip
+pip install -r requirements.txt
+
+4) Ensure model weights exist
+
+mnist_cnn.pt must sit next to app.py / mood.py (already included in this repo).
+
+5) Run either app
+
+Digit Classifier
+
+streamlit run app.py
+
+CalmDigit (Mood Visualizer)
+
+streamlit run mood.py
+
+Open the URL shown in the terminal (usually http://localhost:8501).
+
+⸻
+
+# 🧠 Model at a Glance
+
+A compact CNN:
+
+Conv2d(1→10, k=5) → ReLU → MaxPool
+Conv2d(10→20, k=5) → Dropout2d → ReLU → MaxPool
+Flatten (320) → Linear(320→50) → Dropout → Linear(50→10) → Softmax
+
+Runtime preprocessing boosts real-world sketch recognition (centering, deskew, normalization).
+
+⸻
+
+# 🛠️ Troubleshooting
+	•	Weights not found
+“mnist_cnn.pt not found” → ensure the file is in the repo root.
+	•	Port already in use
+
+streamlit run mood.py --server.port 8502
+
+
+	•	Force CPU
+
+FORCE_CPU=1 streamlit run app.py
+
+
+	•	Build hiccups
+
+pip install --upgrade pip setuptools wheel
+
+
+	•	Reset CalmDigit’s memory
+Delete feedback_mem.npz.
+
+⸻
+
+# 📜 License & Credits
+	•	MNIST dataset by Yann LeCun et al.
+	•	Built with PyTorch, torchvision, and Streamlit.
+	•	For learning/demo purposes only — no warranties.
+
+
